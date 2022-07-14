@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--    springmvc的配置文件,包含网站跳转逻辑的控制和配置 use-default-filters禁用默认规则-->
+    <context:component-scan base-package="org" use-default-filters="false">
+        <!--        只扫描控制器-->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--    配置视图解析器,方便页面返回-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--       视图解析前缀(访问前缀)-->
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <!--       视图解析后缀(访问后缀)-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 静态资源加载,核心控制器拦截的是所有请求,需要对静态资源请求进行放行,通过配置放行资源实现
+       下面这个配置是可以放行所有的普通资源调用
+       让springMVC不处理静态资源,如 .css  .js  .html  .MP3 等-->
+    <mvc:default-servlet-handler/>
+    <!--    配置mvc注解驱动,支持springmvc的高级功能,如JSR30校验与便捷的ajax..动态请求-->
+    <mvc:annotation-driven/>
+</beans>
